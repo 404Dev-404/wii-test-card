@@ -27,7 +27,7 @@ int with_brightness(int c, int b) {
 
 	cr += b;
 	cg += b;
-    cb += b;	
+    	cb += b;	
 
 	cr = (cr > 255) ? 255 : cr;
 	cg = (cg > 255) ? 255 : cg;
@@ -43,8 +43,8 @@ int main() {
 	// everything is proportional to the width and height of the screen so it can be ported to any screen size
 	// specifically because widescreen mode (however i prefer 4:3 mode because it's cool)
 	int brightness = 0;
-	int screen_width = 640;
-	int screen_height = 480;
+	int screen_width = rmode->fbWidth;
+	int screen_height = rmode->efbHeight;
 	int bbar_height = screen_height / 1.5;
 	int bbar_width = screen_width / 7;
 	int lbar_height = screen_height / 16;
@@ -54,8 +54,6 @@ int main() {
 	int sq_third = sq_width / 3;
 
 	while (1) {
-		rmode->fbWidth = screen_width;
-		rmode->efbHeight = screen_width;
 		WPAD_ScanPads();
 		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
 		if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP) brightness++;
