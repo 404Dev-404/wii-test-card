@@ -7,7 +7,7 @@ Features:
 - ~~(kinda broken)~~ (fixed!) Brightness Setting (Up/Down to increase and decrease, B to reset)
 
 Features I'm planning on adding:
-- Phillips Circle Patterns
+- Philips Circle Patterns
 - EBU Colour Bars
 - Telefunken FuBK (which is pretty much just PM5544 no offence germany)
 - Some of the grayscale ones (Telefunken T05, Test Card B/C, etc.)
