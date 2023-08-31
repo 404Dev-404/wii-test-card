@@ -7,7 +7,7 @@ Features:
 - (kinda broken) Brightness Setting (Up/Down on the Wiimote, if you turn the brightness down too much the colors get messed up)
 
 Features I'm planning on adding:
-- Phillips Circle Patterns
+- Philips Circle Patterns
 - EBU Colour Bars
 - Telefunken FuBK (which is pretty much just PM5544 no offence germany)
 - Some of the grayscale ones (Telefunken T05, Test Card B/C, etc.)
