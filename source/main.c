@@ -81,8 +81,8 @@ int main() {
 		GRRLIB_Rectangle(sq_width*3, bbar_height+lbar_height, sq_width, sq_height, with_brightness(SQUARES_GRAY2, brightness), true);
 		GRRLIB_Rectangle(sq_width*4, bbar_height+lbar_height, sq_third, sq_height, with_brightness(SQUARES_GRAY1, brightness), true);
 		GRRLIB_Rectangle((sq_width*4)+sq_third, bbar_height+lbar_height, sq_third, sq_height, with_brightness(SQUARES_GRAY2, brightness), true);
-		GRRLIB_Rectangle((sq_width*4)+(sq_third*2), bbar_height+lbar_height, sq_third, sq_height, with_brightness(SQUARES_GRAY3, brightness), true);
-		GRRLIB_Rectangle(sq_width*5, bbar_height+lbar_height, sq_width, sq_height, with_brightness(SQUARES_GRAY2, brightness), true);
+		GRRLIB_Rectangle((sq_width*4)+(sq_third*2), bbar_height+lbar_height, sq_third+1, sq_height, with_brightness(SQUARES_GRAY3, brightness), true);
+		GRRLIB_Rectangle(sq_width*5, bbar_height+lbar_height, sq_width+1, sq_height, with_brightness(SQUARES_GRAY2, brightness), true);
 
 		GRRLIB_Render();
 	}
