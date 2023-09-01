@@ -103,6 +103,8 @@ int main() {
 		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_RIGHT) { current_card += 1; current_card = clamp_card_number(current_card, 0, 1); }
 		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_LEFT) { current_card -= 1; current_card = clamp_card_number(current_card, 0, 1); }
 
+		GRRLIB_FillScreen(with_brightness(0x000000FF, brightness)); // added this so the empty space's brightness increases along with the colored shapes because i left them empty for :sparkles: OPTIMIZATION :sparkles:
+
 		switch (current_card) {
 			case 0:
 				smpte(screen_width, screen_height, brightness);
