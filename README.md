@@ -5,7 +5,6 @@ Test card generator for the Wii.
 Supported Cards:
 - SMPTE Engineering Guideline EG 1:1990
 - EBU Colour Bars
-- Telefunken FuBK (semi complete)
 
 Features:
 - Test Card is generated from the proportions of the screen so it works in 4:3 and 16:9 mode.

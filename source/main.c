@@ -41,52 +41,6 @@ int with_brightness(int c, int b) {
 #define TELEFUNKEN_WHITE  0xFFFFFFFF
 #define TELEFUNKEN_WHITE2 0xC0C0C0FF
 
-void telefunken_fubk(int screen_width, int screen_height, int brightness) {
-	int grid_size = screen_width / 20;
-	GRRLIB_FillScreen(with_brightness(TELEFUNKEN_GRAY, brightness));
-	
-	// grid
-	for (int i = 0; i < 20; i++) {
-		GRRLIB_Line(0, grid_size * i, screen_width, grid_size * i, with_brightness(TELEFUNKEN_WHITE, brightness));
-	}
-	for (int j = 0; j < 20; j++) {
-		GRRLIB_Line(grid_size * j, 0, grid_size * j, screen_height, with_brightness(TELEFUNKEN_WHITE, brightness));
-	}
-
-	// center rectangle
-	GRRLIB_Rectangle(grid_size * 4, grid_size * 3, grid_size * 12, grid_size * 10, with_brightness(TELEFUNKEN_WHITE, brightness), true);
-
-	// bars
-	int offset_x = grid_size * 4;
-	int offset_y = grid_size * 3;
-	int bar_width = (grid_size * 12) / 8;
-	int bar_height = grid_size * 3;
-
-	int colors[8] = {TELEFUNKEN_WHITE2, BARS_YELLOW, BARS_CYAN, BARS_GREEN, BARS_MAGENTA, BARS_RED, BARS_BLUE, BARS_BLACK};
-	for (int k = 0; k < 8; k++) {
-		GRRLIB_Rectangle(bar_width * k + offset_x, 0 + offset_y, bar_width, bar_height, with_brightness(colors[k], brightness), true);
-	}
-
-	// lower squares
-	int squares_width = bar_width * 2;
-	int squares_height = grid_size * 2;
-	int colors2[4] = {BARS_BLACK, TELEFUNKEN_GRAY2, TELEFUNKEN_GRAY3, TELEFUNKEN_WHITE};
-	for (int l = 0; l < 4; l++) {
-		GRRLIB_Rectangle(squares_width * l + offset_x, bar_height + offset_y, squares_width, squares_height, with_brightness(colors2[l], brightness), true);
-	}
-
-	// center black bar
-	int cbb_width = (squares_width * 2) + (squares_width / 3);
-	GRRLIB_Rectangle((int)(squares_width * 2/3) + offset_x, bar_height+squares_height+offset_y, cbb_width, grid_size, with_brightness(BARS_BLACK, brightness), true); 
-
-	// circle
-	int center_x = screen_width / 2;
-	int center_y = screen_height / 2;
-	int radius_x = grid_size * 14;
-	int radius_y = grid_size * 16;
-	GRRLIB_Ellipse(center_x, center_y, radius_x, radius_y, with_brightness(TELEFUNKEN_WHITE, brightness), false);
-}
-
 void ebu_colour_bars(int screen_width, int screen_height, int brightness) {
 	int bar_width = screen_width / 8;
 	GRRLIB_Rectangle(0, 0, bar_width, screen_height, with_brightness(BARS_WHITE, brightness), true);
@@ -152,8 +106,8 @@ int main() {
 		if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP) brightness++;
 		if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_DOWN) brightness--;
 		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_B) brightness = 0;
-		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_RIGHT) { current_card += 1; current_card = clamp_card_number(current_card, 0, 2); }
-		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_LEFT) { current_card -= 1; current_card = clamp_card_number(current_card, 0, 2); }
+		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_RIGHT) { current_card += 1; current_card = clamp_card_number(current_card, 0, 1); }
+		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_LEFT) { current_card -= 1; current_card = clamp_card_number(current_card, 0, 1); }
 
 		GRRLIB_FillScreen(with_brightness(0x000000FF, brightness)); // added this so the empty space's brightness increases along with the colored shapes because i left them empty for :sparkles: OPTIMIZATION :sparkles:
 
@@ -163,9 +117,6 @@ int main() {
 				break;
 			case 1:
 				ebu_colour_bars(screen_width, screen_height, brightness);
-				break;
-			case 2:
-				telefunken_fubk(screen_width, screen_height, brightness);
 				break;
 			default:
 				// clamp didn't work all hope is lost just kill the program
