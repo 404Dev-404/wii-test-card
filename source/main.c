@@ -35,6 +35,17 @@ int with_brightness(int c, int b) {
 	return RGBA(cr, cg, cb, ca);
 }
 
+void ebu_colour_bars(int screen_width, int screen_height, int brightness) {
+	int bar_width = screen_width / 8;
+	GRRLIB_Rectangle(0, 0, bar_width, screen_height, with_brightness(BARS_WHITE, brightness), true);
+	GRRLIB_Rectangle(bar_width, 0, bar_width, screen_height, with_brightness(BARS_YELLOW, brightness), true);
+	GRRLIB_Rectangle(bar_width*2, 0, bar_width, screen_height, with_brightness(BARS_CYAN, brightness), true);
+	GRRLIB_Rectangle(bar_width*3, 0, bar_width, screen_height, with_brightness(BARS_GREEN, brightness), true);
+	GRRLIB_Rectangle(bar_width*4, 0, bar_width, screen_height, with_brightness(BARS_MAGENTA, brightness), true);
+	GRRLIB_Rectangle(bar_width*5, 0, bar_width, screen_height, with_brightness(BARS_RED, brightness), true);
+	GRRLIB_Rectangle(bar_width*6, 0, bar_width, screen_height, with_brightness(BARS_BLUE, brightness), true);
+}
+
 void smpte(int screen_width, int screen_height, int brightness) {
 	int bbar_height = screen_height / 1.5;
 	int bbar_width = screen_width / 7;
@@ -68,6 +79,10 @@ void smpte(int screen_width, int screen_height, int brightness) {
 	GRRLIB_Rectangle(sq_width*5, bbar_height+lbar_height, sq_width+1, sq_height, with_brightness(SQUARES_GRAY2, brightness), true);	
 }
 
+int clamp_card_number(int v, int min, int max) {
+	return (v - min + (max - min + 1)) % (max-min+1) + min;
+}
+
 int main() {
 	GRRLIB_Init();
 	WPAD_Init();
@@ -75,6 +90,7 @@ int main() {
 	// everything is proportional to the width and height of the screen so it can be ported to any screen size
 	// specifically because widescreen mode (however i prefer 4:3 mode because it's cool)
 	int brightness = 0;
+	int current_card = 0;
 	int screen_width = rmode->fbWidth;
 	int screen_height = rmode->efbHeight;
 
@@ -84,8 +100,21 @@ int main() {
 		if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_UP) brightness++;
 		if (WPAD_ButtonsHeld(0) & WPAD_BUTTON_DOWN) brightness--;
 		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_B) brightness = 0;
+		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_RIGHT) { current_card += 1; current_card = clamp_card_number(current_card, 0, 1); }
+		if (WPAD_ButtonsDown(0) & WPAD_BUTTON_LEFT) { current_card -= 1; current_card = clamp_card_number(current_card, 0, 1); }
 
-		smpte(screen_width, screen_height, brightness);
+		switch (current_card) {
+			case 0:
+				smpte(screen_width, screen_height, brightness);
+				break;
+			case 1:
+				ebu_colour_bars(screen_width, screen_height, brightness);
+				break;
+			default:
+				// clamp didn't work all hope is lost just kill the program
+				GRRLIB_Exit();
+				exit(0);
+		}
 		
 		GRRLIB_Render();
 	}
